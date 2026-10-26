@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lars Berger – Portfolio | Zukünftiger Mediamatiker</title>
+<meta name="description" content="Portfolio von Lars Berger – Oberstufenschüler auf dem Weg zur Lehre als Mediamatiker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Titillium+Web:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   FARBEN & GRUNDEINSTELLUNGEN  (hier kannst du alles anpassen)
+   ========================================================= */
+:root{
+  --navy:#0B1D3A;
+  --navy-2:#132B52;
+  --navy-3:#1E3D6E;
+  --gold:#C9A54C;          /* zweite Farbe: Champagner-Gold */
+  --gold-light:#E8CB80;
+  --bg:#F4F6FA;
+  --white:#FFFFFF;
+  --text:#1A2433;
+  --muted:#5D6879;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(11,29,58,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;color:var(--text);background:var(--bg);line-height:1.65;overflow-x:hidden;padding-bottom:34px}
+h1,h2,h3,.f1font{font-family:'Titillium Web',sans-serif;line-height:1.15}
+a{color:inherit;text-decoration:none}
+.container{width:min(1100px,90%);margin:0 auto}
+section{padding:100px 0}
+.section-label{display:inline-block;font-family:'Titillium Web';font-weight:700;letter-spacing:3px;text-transform:uppercase;font-size:.8rem;color:var(--gold);margin-bottom:10px}
+.section-title{font-size:clamp(2rem,4vw,2.8rem);color:var(--navy);margin-bottom:18px}
+.section-intro{color:var(--muted);max-width:640px;margin-bottom:50px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:50px;font-weight:500;transition:.25s;cursor:pointer;border:2px solid transparent;font-family:inherit;font-size:1rem}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-outline{border-color:rgba(255,255,255,.4);color:#fff;background:transparent}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Elemente erscheinen beim Scrollen */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* =========================================================
+   LADEANIMATION – STARTAMPEL
+   ========================================================= */
+#loader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;transition:opacity .6s}
+#loader.hide{opacity:0;pointer-events:none}
+.lights{display:flex;gap:14px;background:#050d1c;padding:18px 22px;border-radius:14px;box-shadow:0 0 0 3px #1a2a45}
+.light{width:46px;height:46px;border-radius:50%;background:#2a1414;box-shadow:inset 0 0 8px #000;transition:background .1s,box-shadow .1s}
+.light.on{background:#ff2b2b;box-shadow:0 0 22px #ff2b2b,inset 0 0 6px #ffb3b3}
+#loader-text{font-family:'Titillium Web';font-weight:900;font-size:2rem;letter-spacing:4px;color:#fff;min-height:2.4rem}
+#skip{position:absolute;bottom:30px;color:rgba(255,255,255,.5);background:none;border:none;font-family:inherit;cursor:pointer;font-size:.85rem}
+#skip:hover{color:var(--gold)}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:.3s;padding:20px 0}
+nav.scrolled{background:rgba(11,29,58,.95);backdrop-filter:blur(8px);padding:12px 0;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Titillium Web';font-weight:900;font-size:1.6rem;color:#fff}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.85);font-size:.95rem;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--gold);transition:.25s}
+.nav-links a:hover::after{width:100%}
+.burger{display:none;background:none;border:none;color:#fff;font-size:1.7rem;cursor:pointer}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+#hero{min-height:100vh;background:radial-gradient(circle at 80% 20%,var(--navy-3) 0%,var(--navy) 55%);color:#fff;display:flex;align-items:center;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:50px 50px}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;position:relative}
+.hero-hello{color:var(--gold);font-weight:500;letter-spacing:1px}
+.hero-name{font-size:clamp(3rem,7vw,5.2rem);font-weight:900;margin:6px 0 10px}
+.hero-role{font-size:1.35rem;color:rgba(255,255,255,.85);margin-bottom:8px}
+.typed{color:var(--gold-light);font-weight:600;border-right:2px solid var(--gold);padding-right:4px}
+.hero-text{color:rgba(255,255,255,.7);max-width:480px;margin:18px 0 32px}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:30px;font-size:.85rem}
+.photo-wrap{position:relative;justify-self:center}
+.photo-frame{width:min(340px,75vw);aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:3px solid var(--gold);box-shadow:0 25px 60px rgba(0,0,0,.4);background:var(--navy-2)}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-fallback{display:none;width:100%;height:100%;align-items:center;justify-content:center;font-family:'Titillium Web';font-size:6rem;font-weight:900;color:var(--gold)}
+.photo-tag{position:absolute;bottom:-18px;left:-18px;background:var(--gold);color:var(--navy);padding:10px 18px;border-radius:12px;font-weight:600;box-shadow:var(--shadow)}
+.scroll-hint{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.8rem;text-align:center;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* =========================================================
+   ÜBER MICH
+   ========================================================= */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+.about-text p{margin-bottom:16px;color:var(--muted)}
+.about-text strong{color:var(--navy)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);transition:.3s;border-bottom:3px solid transparent}
+.card:hover{transform:translateY(-6px);border-bottom-color:var(--gold)}
+.card .icon{font-size:2rem;margin-bottom:10px}
+.card h3{color:var(--navy);font-size:1.15rem;margin-bottom:6px}
+.card p{font-size:.9rem;color:var(--muted)}
+.hobbies{margin-top:70px}
+.hobbies h3.sub{font-size:1.5rem;color:var(--navy);margin-bottom:22px}
+.hobby-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.hobby{background:var(--navy);color:#fff;border-radius:var(--radius);padding:28px;position:relative;overflow:hidden}
+.hobby::after{content:'';position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:rgba(201,165,76,.15)}
+.hobby .icon{font-size:2.2rem}
+.hobby h4{font-family:'Titillium Web';font-size:1.25rem;margin:10px 0 6px}
+.hobby p{font-size:.9rem;color:rgba(255,255,255,.7)}
+
+/* =========================================================
+   LAUFBAHN ALS RENNSTRECKE
+   ========================================================= */
+#laufbahn{background:var(--white)}
+.track{position:relative;margin-top:20px}
+.track::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:#2b3240;border-radius:9px}
+.track::after{content:'';position:absolute;left:50%;top:10px;bottom:10px;width:3px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#fff 0 14px,transparent 14px 28px)}
+.station{position:relative;width:50%;padding:0 50px 50px}
+.station:nth-child(odd){left:0;text-align:right}
+.station:nth-child(even){left:50%}
+.station .marker{position:absolute;top:0;width:46px;height:46px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Titillium Web';font-weight:700;border:3px solid var(--gold);z-index:2}
+.station:nth-child(odd) .marker{right:-23px}
+.station:nth-child(even) .marker{left:-23px}
+.station .box{background:var(--bg);padding:22px 26px;border-radius:var(--radius);display:inline-block;text-align:left;max-width:420px;box-shadow:var(--shadow)}
+.station .turn{font-family:'Titillium Web';font-size:.8rem;letter-spacing:2px;color:var(--gold);font-weight:700;text-transform:uppercase}
+.station h3{color:var(--navy);font-size:1.3rem;margin:4px 0}
+.station p{color:var(--muted);font-size:.92rem}
+.now{display:inline-block;background:var(--gold);color:var(--navy);font-size:.72rem;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.station.finish .marker{background:repeating-conic-gradient(#000 0 25%,#fff 0 50%) 50%/16px 16px;color:transparent}
+
+/* =========================================================
+   SKILLS ALS TACHO
+   ========================================================= */
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.gauge{background:var(--white);border-radius:var(--radius);padding:26px 18px 22px;text-align:center;box-shadow:var(--shadow)}
+.gauge svg{width:100%;max-width:190px}
+.gauge .arc-bg{fill:none;stroke:#e3e8f0;stroke-width:14;stroke-linecap:round}
+.gauge .arc{fill:none;stroke:url(#goldGrad);stroke-width:14;stroke-linecap:round;stroke-dasharray:251.3;stroke-dashoffset:251.3;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1)}
+.gauge .needle{stroke:var(--navy);stroke-width:4;stroke-linecap:round;transform-origin:100px 100px;transform:rotate(-90deg);transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.gauge h3{color:var(--navy);margin-top:8px;font-size:1.2rem}
+.gauge p{color:var(--muted);font-size:.85rem}
+.soft{margin-top:46px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.chip{background:var(--navy);color:#fff;padding:10px 20px;border-radius:30px;font-size:.92rem}
+.chip span{color:var(--gold)}
+
+/* =========================================================
+   FORMEL 1
+   ========================================================= */
+#formel1{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;position:relative;overflow:hidden}
+#formel1 .section-title{color:#fff}
+#formel1 .section-intro{color:rgba(255,255,255,.7)}
+.f1-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+.panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:30px}
+.panel h3{font-size:1.4rem;margin-bottom:6px}
+.panel .small{color:rgba(255,255,255,.6);font-size:.88rem}
+.hamilton{display:flex;gap:26px;align-items:center;grid-row:span 2}
+.number44{font-family:'Titillium Web';font-weight:900;font-size:8rem;line-height:1;color:transparent;-webkit-text-stroke:2px var(--gold);cursor:pointer;user-select:none;transition:.2s}
+.number44:hover{color:rgba(201,165,76,.15)}
+.stats{display:flex;gap:26px;margin:18px 0}
+.stat b{display:block;font-family:'Titillium Web';font-size:2rem;color:var(--gold)}
+.stat span{font-size:.8rem;color:rgba(255,255,255,.6)}
+.quote{font-style:italic;color:var(--gold-light);border-left:3px solid var(--gold);padding-left:14px;margin-top:10px}
+.countdown{display:flex;gap:12px;margin-top:16px}
+.cd-box{flex:1;background:rgba(0,0,0,.25);border-radius:12px;padding:12px 6px;text-align:center}
+.cd-box b{font-family:'Titillium Web';font-size:2rem;display:block}
+.cd-box span{font-size:.72rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px}
+.game{grid-column:1 / -1;text-align:center}
+.game .lights{margin:22px auto;display:inline-flex}
+.game .light{width:40px;height:40px}
+#game-result{font-family:'Titillium Web';font-size:2.4rem;font-weight:700;min-height:3rem;color:var(--gold)}
+#game-msg{color:rgba(255,255,255,.75);min-height:1.6rem;margin-bottom:16px}
+#game-best{color:rgba(255,255,255,.5);font-size:.85rem;margin-top:12px}
+
+/* =========================================================
+   KONTAKT & FOOTER
+   ========================================================= */
+#kontakt{text-align:center}
+#kontakt .section-intro{margin:0 auto 34px}
+.contact-box{background:var(--white);display:inline-flex;flex-direction:column;align-items:center;gap:18px;padding:40px 50px;border-radius:24px;box-shadow:var(--shadow)}
+.contact-mail{font-size:1.2rem;color:var(--navy);font-weight:600}
+.contact-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-3);transform:translateY(-2px)}
+.btn-light{background:var(--bg);color:var(--navy)}
+.btn-light:hover{background:#e6eaf2}
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:30px 0 40px;font-size:.85rem}
+footer .hint{font-size:.75rem;color:rgba(255,255,255,.3);margin-top:6px}
+
+/* =========================================================
+   F1-AUTO, DAS BEIM SCROLLEN MITFÄHRT
+   ========================================================= */
+#scroll-track{position:fixed;left:0;right:0;bottom:0;height:34px;background:#1f2633;z-index:90;border-top:2px solid var(--gold)}
+#scroll-track::before{content:'';position:absolute;left:0;right:40px;top:50%;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.5) 0 18px,transparent 18px 36px)}
+#flag{position:absolute;right:8px;top:6px;width:24px;height:20px;background:repeating-conic-gradient(#000 0 25%,#fff 0 50%) 0 0/10px 10px;border-radius:2px}
+#car{position:absolute;left:0;top:5px;width:64px;height:24px;transition:transform .08s linear}
+#car.burnout{animation:shake .08s infinite}
+@keyframes shake{0%{margin-top:0}50%{margin-top:-1px;rotate:-2deg}100%{margin-top:1px;rotate:2deg}}
+.smoke{position:fixed;width:18px;height:18px;border-radius:50%;background:rgba(220,225,232,.75);pointer-events:none;z-index:89;animation:smoke 1.2s ease-out forwards}
+@keyframes smoke{to{transform:translate(-40px,-40px) scale(4);opacity:0}}
+
+/* Champagner-Effekt */
+.champ-layer{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}
+.bottle{position:absolute;left:50%;bottom:12%;font-size:4.5rem;transform:translateX(-50%) rotate(-25deg);animation:pop .6s ease-out}
+@keyframes pop{0%{transform:translateX(-50%) scale(.2) rotate(0)}70%{transform:translateX(-50%) scale(1.2) rotate(-30deg)}100%{transform:translateX(-50%) scale(1) rotate(-25deg)}}
+.drop{position:absolute;left:50%;bottom:24%;width:9px;height:9px;border-radius:50%;animation:spray 1.8s cubic-bezier(.1,.7,.3,1) forwards}
+@keyframes spray{to{transform:translate(var(--dx),var(--dy));opacity:0}}
+#toast{position:fixed;top:90px;left:50%;transform:translate(-50%,-20px);background:var(--gold);color:var(--navy);padding:14px 26px;border-radius:12px;font-weight:600;box-shadow:var(--shadow);opacity:0;transition:.4s;z-index:9999;text-align:center;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* =========================================================
+   HANDY-ANSICHT
+   ========================================================= */
+@media (max-width:900px){
+  .hero-grid,.about-grid,.f1-grid{grid-template-columns:1fr}
+  .hero-grid{text-align:center;padding-top:110px;gap:50px}
+  .hero-text{margin-left:auto;margin-right:auto}
+  .hero-buttons,.badges{justify-content:center}
+  .scroll-hint{display:none}
+  .gauges{grid-template-columns:1fr 1fr}
+  .hobby-grid{grid-template-columns:1fr}
+  .hamilton{flex-direction:column;text-align:center;grid-row:auto}
+  .stats{justify-content:center}
+  .track::before,.track::after{left:23px}
+  .station,.station:nth-child(even){width:100%;left:0;text-align:left;padding:0 0 40px 70px}
+  .station:nth-child(odd) .marker,.station:nth-child(even) .marker{left:0;right:auto}
+  .nav-links{position:fixed;top:0;right:-100%;height:100vh;width:70%;background:var(--navy);flex-direction:column;padding:100px 40px;transition:.3s}
+  .nav-links.open{right:0}
+  .burger{display:block;z-index:101}
+}
+@media (max-width:520px){
+  .cards,.gauges{grid-template-columns:1fr}
+  .contact-box{padding:30px 22px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== LADEANIMATION ===================== -->
+<div id="loader">
+  <div class="lights">
+    <div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div>
+  </div>
+  <div id="loader-text"></div>
+  <button id="skip">Überspringen ›</button>
+</div>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#hero" class="logo">LB<span>.</span></a>
+    <button class="burger" id="burger" aria-label="Menü öffnen">☰</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">Über mich</a></li>
+      <li><a href="#laufbahn">Laufbahn</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#formel1">Formel 1</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header id="hero">
+  <div class="container hero-grid">
+    <div>
+      <p class="hero-hello">Hallo, ich bin</p>
+      <h1 class="hero-name">Lars Berger</h1>
+      <p class="hero-role">Zukünftiger Mediamatiker – <span class="typed" id="typed"></span></p>
+      <p class="hero-text">Ich besuche die Oberstufe und suche eine Lehrstelle als Mediamatiker. Ich verbinde gerne Kreativität mit der digitalen Welt – und gebe dabei immer Vollgas.</p>
+      <div class="hero-buttons">
+        <a href="#kontakt" class="btn btn-gold">Kontakt aufnehmen</a>
+        <a href="#about" class="btn btn-outline">Mehr über mich</a>
+      </div>
+      <div class="badges">
+        <span class="badge">🎓 8. Klasse, OSRM</span>
+        <span class="badge">🎯 Ziel: Lehre als Mediamatiker</span>
+        <span class="badge">🏁 Formel-1-Fan</span>
+      </div>
+    </div>
+    <div class="photo-wrap">
+      <div class="photo-frame">
+        <!-- FOTO: Lade dein Bild als "lars.jpg" in denselben Ordner wie diese Datei hoch -->
+        <img src="lars.jpg" alt="Foto von Lars Berger" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback">LB</div>
+      </div>
+      <div class="photo-tag">Bereit für den Start 🚦</div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scrollen<br>↓</div>
+</header>
+
+<!-- ===================== ÜBER MICH ===================== -->
+<section id="about">
+  <div class="container">
+    <span class="section-label">Über mich</span>
+    <h2 class="section-title">Wer ist Lars?</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Ich bin <strong>Lars</strong>, 13 Jahre alt, und besuche die <strong>8. Klasse der Oberstufe (OSRM)</strong>.</p>
+        <p>Ich bin ein <strong>kreativer Mensch</strong> und bin gerne mit anderen zusammen. Wer mich kennt, weiss: Ich lache viel und sorge gerne für gute Stimmung. Auch im Team bringe ich eine gute Energie mit.</p>
+        <p>Ich bin oft <strong>digital unterwegs</strong>. Mich interessiert, wie Medien, Spiele und Websites funktionieren und wie sie gemacht werden. Darum möchte ich <strong>Mediamatiker</strong> werden: Dort kann ich Kreativität und Technik verbinden.</p>
+        <p>Ich bin noch am Anfang. Aber ich bin motiviert, Neues zu lernen – Runde für Runde.</p>
+      </div>
+      <div class="cards">
+        <div class="card reveal"><div class="icon">🎨</div><h3>Kreativ</h3><p>Ich habe gerne eigene Ideen und probiere Neues aus.</p></div>
+        <div class="card reveal"><div class="icon">🤝</div><h3>Gesellig</h3><p>Ich bin gerne unter Menschen und arbeite gerne im Team.</p></div>
+        <div class="card reveal"><div class="icon">😄</div><h3>Fröhlich</h3><p>Ich lache viel und bringe gute Laune mit.</p></div>
+        <div class="card reveal"><div class="icon">💡</div><h3>Humorvoll</h3><p>Mit Humor geht vieles leichter – auch das Lernen.</p></div>
+      </div>
+    </div>
+
+    <div class="hobbies">
+      <h3 class="sub">Meine Hobbys</h3>
+      <div class="hobby-grid">
+        <div class="hobby reveal"><div class="icon">🏸</div><h4>Badminton</h4><p>Schnelle Reaktionen, Bewegung und Spass mit anderen.</p></div>
+        <div class="hobby reveal"><div class="icon">🎮</div><h4>Digital unterwegs</h4><p>Gaming und die digitale Welt – hier hole ich mir viele Ideen.</p></div>
+        <div class="hobby reveal"><div class="icon">🏎️</div><h4>Formel 1</h4><p>Meine grösste Leidenschaft. Mehr dazu weiter unten!</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LAUFBAHN ===================== -->
+<section id="laufbahn">
+  <div class="container">
+    <span class="section-label">Laufbahn</span>
+    <h2 class="section-title">Meine Strecke</h2>
+    <p class="section-intro">Jede Rennstrecke hat ihre Kurven – das sind meine bisherigen und nächsten Stationen.</p>
+    <div class="track">
+      <div class="station reveal">
+        <div class="marker">K1</div>
+        <div class="box"><span class="turn">Kurve 1 · Start</span><h3>Primarschule</h3><p>Hier habe ich die Grundlagen gelernt.</p></div>
+      </div>
+      <div class="station reveal">
+        <div class="marker">K2</div>
+        <div class="box"><span class="turn">Kurve 2</span><h3>Oberstufe OSRM <span class="now">Aktuell</span></h3><p>Zurzeit besuche ich die 8. Klasse.</p></div>
+      </div>
+      <div class="station reveal">
+        <div class="marker">K3</div>
+        <div class="box"><span class="turn">Kurve 3 · Nächste Etappe</span><h3>Schnupperlehren</h3><p>Ich möchte den Beruf Mediamatiker in Schnupperlehren kennenlernen.</p></div>
+      </div>
+      <div class="station finish reveal">
+        <div class="marker">Z</div>
+        <div class="box"><span class="turn">Zielflagge 🏁</span><h3>Lehre als Mediamatiker EFZ</h3><p>Mein Ziel: eine Lehrstelle, in der ich Kreativität und Technik verbinden kann.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section id="skills">
+  <div class="container">
+    <span class="section-label">Skills</span>
+    <h2 class="section-title">Mein Cockpit</h2>
+    <p class="section-intro">Sprachen und Kenntnisse – angezeigt wie auf einem Tacho.</p>
+
+    <!-- Farbverlauf für die Tachos -->
+    <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="goldGrad" x1="0" x2="1"><stop offset="0" stop-color="#1E3D6E"/><stop offset="1" stop-color="#C9A54C"/></linearGradient></defs></svg>
+
+    <div class="gauges">
+      <!-- data-value = Wert von 0 bis 100 -->
+      <div class="gauge reveal" data-value="100"><svg viewBox="0 0 200 115"><path class="arc-bg" d="M20 100 A80 80 0 0 1 180 100"/><path class="arc" d="M20 100 A80 80 0 0 1 180 100"/><line class="needle" x1="100" y1="100" x2="100" y2="38"/><circle cx="100" cy="100" r="8" fill="#0B1D3A"/></svg><h3>Deutsch</h3><p>Muttersprache</p></div>
+      <div class="gauge reveal" data-value="85"><svg viewBox="0 0 200 115"><path class="arc-bg" d="M20 100 A80 80 0 0 1 180 100"/><path class="arc" d="M20 100 A80 80 0 0 1 180 100"/><line class="needle" x1="100" y1="100" x2="100" y2="38"/><circle cx="100" cy="100" r="8" fill="#0B1D3A"/></svg><h3>Englisch</h3><p>Verhandlungssicher</p></div>
+      <div class="gauge reveal" data-value="35"><svg viewBox="0 0 200 115"><path class="arc-bg" d="M20 100 A80 80 0 0 1 180 100"/><path class="arc" d="M20 100 A80 80 0 0 1 180 100"/><line class="needle" x1="100" y1="100" x2="100" y2="38"/><circle cx="100" cy="100" r="8" fill="#0B1D3A"/></svg><h3>Französisch</h3><p>Grundkenntnisse</p></div>
+      <div class="gauge reveal" data-value="40"><svg viewBox="0 0 200 115"><path class="arc-bg" d="M20 100 A80 80 0 0 1 180 100"/><path class="arc" d="M20 100 A80 80 0 0 1 180 100"/><line class="needle" x1="100" y1="100" x2="100" y2="38"/><circle cx="100" cy="100" r="8" fill="#0B1D3A"/></svg><h3>Microsoft 365</h3><p>Grundkenntnisse</p></div>
+    </div>
+
+    <div class="soft">
+      <span class="chip"><span>●</span> Kreativität</span>
+      <span class="chip"><span>●</span> Teamfähigkeit</span>
+      <span class="chip"><span>●</span> Gute Laune</span>
+      <span class="chip"><span>●</span> Digitales Interesse</span>
+      <span class="chip"><span>●</span> Lernbereitschaft</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FORMEL 1 ===================== -->
+<section id="formel1">
+  <div class="container">
+    <span class="section-label">Leidenschaft</span>
+    <h2 class="section-title">Formel 1 – meine grösste Leidenschaft</h2>
+    <p class="section-intro">Teamwork, Technik und Präzision bis auf die Tausendstelsekunde: Das fasziniert mich an der Formel 1.</p>
+
+    <div class="f1-grid">
+      <div class="panel hamilton reveal">
+        <div class="number44" id="n44" title="Klick mich ...">44</div>
+        <div>
+          <span class="section-label">Mein Lieblingsfahrer</span>
+          <h3>Lewis Hamilton</h3>
+          <div class="stats">
+            <div class="stat"><b>7×</b><span>Weltmeister</span></div>
+            <div class="stat"><b>100+</b><span>GP-Siege</span></div>
+            <div class="stat"><b>#44</b><span>Startnummer</span></div>
+          </div>
+          <p class="small">Hamilton zeigt: Mit Talent, harter Arbeit und Durchhaltewillen kann man sehr weit kommen. Das ist für mich ein Vorbild.</p>
+          <p class="quote">«Still I Rise»</p>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <span class="section-label">Countdown</span>
+        <h3 id="race-name">Nächstes Rennen</h3>
+        <p class="small" id="race-date"></p>
+        <div class="countdown">
+          <div class="cd-box"><b id="cd-d">0</b><span>Tage</span></div>
+          <div class="cd-box"><b id="cd-h">0</b><span>Std</span></div>
+          <div class="cd-box"><b id="cd-m">0</b><span>Min</span></div>
+          <div class="cd-box"><b id="cd-s">0</b><span>Sek</span></div>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <span class="section-label">Fun Fact</span>
+        <h3>Boxenstopp in ca. 2 Sekunden</h3>
+        <p class="small">So schnell wechselt ein Team in der Formel 1 alle vier Reifen. Das geht nur mit perfektem Teamwork – genau das finde ich spannend.</p>
+      </div>
+
+      <div class="panel game reveal">
+        <span class="section-label">Mini-Game</span>
+        <h3>Teste deine Reaktion wie ein F1-Fahrer</h3>
+        <p class="small">Klicke auf «Start». Wenn alle Lichter ausgehen, klicke so schnell wie möglich auf den Button.</p>
+        <div class="lights" id="game-lights">
+          <div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div>
+        </div>
+        <div id="game-result">– ms</div>
+        <div id="game-msg">Bereit?</div>
+        <button class="btn btn-gold" id="game-btn">Start</button>
+        <div id="game-best"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KONTAKT ===================== -->
+<section id="kontakt">
+  <div class="container">
+    <span class="section-label">Kontakt</span>
+    <h2 class="section-title">Lust, mich kennenzulernen?</h2>
+    <p class="section-intro">Ich freue mich über eine Nachricht – zum Beispiel für eine Schnupperlehre oder ein Gespräch.</p>
+    <div class="contact-box reveal">
+      <div style="font-size:2.4rem">✉️</div>
+      <div class="contact-mail" id="mail">lars.berger2712@gmail.com</div>
+      <div class="contact-actions">
+        <a class="btn btn-navy" href="mailto:lars.berger2712@gmail.com?subject=Anfrage%20Schnupperlehre">E-Mail schreiben</a>
+        <button class="btn btn-light" id="copy">Adresse kopieren</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Lars Berger · Gebaut mit HTML, CSS &amp; JavaScript
+  <div class="hint">Psst … tippe mal «hamilton» auf der Tastatur.</div>
+</footer>
+
+<!-- ===================== SCROLL-STRECKE MIT AUTO ===================== -->
+<div id="scroll-track">
+  <svg id="car" viewBox="0 0 64 24" aria-hidden="true">
+    <!-- Heckflügel -->
+    <rect x="2" y="4" width="5" height="12" rx="1" fill="#C9A54C"/>
+    <!-- Karosserie -->
+    <path d="M6 12 L18 9 L34 8 L44 10 L60 13 L60 16 L6 16 Z" fill="#E8EDF5"/>
+    <path d="M18 12 L60 13.5 L60 16 L18 16 Z" fill="#1E3D6E"/>
+    <!-- Cockpit / Halo -->
+    <path d="M28 8 Q32 4 38 8" stroke="#0B1D3A" stroke-width="2" fill="none"/>
+    <!-- Frontflügel -->
+    <rect x="56" y="15" width="7" height="3" rx="1" fill="#C9A54C"/>
+    <!-- Startnummer -->
+    <text x="22" y="14.5" font-size="5" font-weight="700" fill="#0B1D3A" font-family="Arial">44</text>
+    <!-- Räder -->
+    <circle cx="14" cy="17" r="5" fill="#111"/><circle cx="14" cy="17" r="2" fill="#666"/>
+    <circle cx="50" cy="17" r="5" fill="#111"/><circle cx="50" cy="17" r="2" fill="#666"/>
+  </svg>
+  <div id="flag"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   1) LADEANIMATION – STARTAMPEL
+   ========================================================= */
+const loader = document.getElementById('loader');
+const loaderLights = loader.querySelectorAll('.light');
+const loaderText = document.getElementById('loader-text');
+let loaderTimers = [];
+
+function hideLoader(){
+  loaderTimers.forEach(clearTimeout);
+  loader.classList.add('hide');
+  sessionStorage.setItem('introSeen','1');
+}
+document.getElementById('skip').addEventListener('click', hideLoader);
+
+if (sessionStorage.getItem('introSeen')) {
+  loader.style.display = 'none';            // Intro nur einmal pro Besuch
+} else {
+  loaderLights.forEach((l,i) => loaderTimers.push(setTimeout(() => l.classList.add('on'), 400 + i*450)));
+  const out = 400 + 5*450 + 500 + Math.random()*600;
+  loaderTimers.push(setTimeout(() => {
+    loaderLights.forEach(l => l.classList.remove('on'));
+    loaderText.textContent = 'LIGHTS OUT!';
+  }, out));
+  loaderTimers.push(setTimeout(hideLoader, out + 700));
+}
+
+/* =========================================================
+   2) NAVIGATION
+   ========================================================= */
+const nav = document.getElementById('nav');
+const navLinks = document.getElementById('nav-links');
+document.getElementById('burger').addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* =========================================================
+   3) SCHREIBMASCHINEN-EFFEKT IM HERO
+   ========================================================= */
+const words = ['kreativ', 'digital', 'motiviert', 'teamfähig'];
+const typed = document.getElementById('typed');
+let w = 0, c = 0, deleting = false;
+function typeLoop(){
+  const word = words[w];
+  typed.textContent = word.slice(0, c);
+  if (!deleting && c < word.length) c++;
+  else if (deleting && c > 0) c--;
+  else if (!deleting) { deleting = true; return setTimeout(typeLoop, 1400); }
+  else { deleting = false; w = (w + 1) % words.length; }
+  setTimeout(typeLoop, deleting ? 50 : 100);
+}
+typeLoop();
+
+/* =========================================================
+   4) ELEMENTE BEIM SCROLLEN EINBLENDEN + TACHOS
+   ========================================================= */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    if (e.target.classList.contains('gauge')) {
+      const v = Number(e.target.dataset.value) / 100;
+      e.target.querySelector('.arc').style.strokeDashoffset = 251.3 * (1 - v);
+      e.target.querySelector('.needle').style.transform = 'rotate(' + (-90 + 180 * v) + 'deg)';
+    }
+    observer.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* =========================================================
+   5) AUTO FÄHRT BEIM SCROLLEN MIT
+   ========================================================= */
+const car = document.getElementById('car');
+let finished = false;
+function moveCar(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const p = max > 0 ? scrollY / max : 0;
+  const trackWidth = innerWidth - 64 - 40;
+  car.style.transform = 'translateX(' + (p * trackWidth) + 'px)';
+  nav.classList.toggle('scrolled', scrollY > 50);
+
+  // Zielflagge erreicht -> Champagner!
+  if (p > 0.99 && !finished) { finished = true; champagne('🏁 Zielflagge! Danke für deinen Besuch.'); }
+  if (p < 0.9) finished = false;
+}
+addEventListener('scroll', moveCar, { passive: true });
+addEventListener('resize', moveCar);
+moveCar();
+
+/* Burnout, wenn man beim Hamilton-Bereich ankommt */
+function burnout(){
+  car.classList.add('burnout');
+  const smokeTimer = setInterval(() => {
+    const r = car.getBoundingClientRect();
+    const s = document.createElement('div');
+    s.className = 'smoke';
+    s.style.left = (r.left + 4) + 'px';
+    s.style.top = (r.top + 6) + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1200);
+  }, 70);
+  setTimeout(() => { clearInterval(smokeTimer); car.classList.remove('burnout'); }, 1600);
+}
+new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) burnout(); });
+}, { threshold: 0.35 }).observe(document.getElementById('formel1'));
+
+/* =========================================================
+   6) CHAMPAGNER + HINWEIS-MELDUNG
+   ========================================================= */
+function toast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+function champagne(text){
+  const layer = document.createElement('div');
+  layer.className = 'champ-layer';
+  layer.innerHTML = '<div class="bottle">🍾</div>';
+  const colors = ['#C9A54C', '#E8CB80', '#FFFFFF', '#F6E7B8'];
+  for (let i = 0; i < 80; i++) {
+    const d = document.createElement('div');
+    d.className = 'drop';
+    d.style.background = colors[i % colors.length];
+    d.style.setProperty('--dx', (Math.random() * 700 - 350) + 'px');
+    d.style.setProperty('--dy', (-Math.random() * 500 - 150) + 'px');
+    d.style.animationDelay = (Math.random() * 0.4) + 's';
+    layer.appendChild(d);
+  }
+  document.body.appendChild(layer);
+  setTimeout(() => layer.remove(), 2600);
+  if (text) toast(text);
+}
+
+/* =========================================================
+   7) EASTER EGG – HAMILTON
+   ========================================================= */
+let keys = '';
+addEventListener('keydown', e => {
+  keys = (keys + e.key.toLowerCase()).slice(-10);
+  if (keys.endsWith('hamilton') || keys.endsWith('lh44')) {
+    keys = '';
+    champagne('🏆 Easter Egg gefunden! «Still I Rise» – Lewis Hamilton');
+  }
+});
+let clicks44 = 0, clickTimer;
+document.getElementById('n44').addEventListener('click', () => {
+  clicks44++;
+  clearTimeout(clickTimer);
+  clickTimer = setTimeout(() => clicks44 = 0, 1200);
+  if (clicks44 >= 3) { clicks44 = 0; burnout(); champagne('🍾 Hammer Time! Du hast das Easter Egg gefunden.'); }
+});
+
+/* =========================================================
+   8) COUNTDOWN BIS ZUM NÄCHSTEN RENNEN
+   Rennstart in UTC-Zeit (ungefähre Zeiten).
+   Für die nächste Saison einfach neue Rennen hier eintragen.
+   ========================================================= */
+const races = [
+  { name: 'GP von Mexiko',    ort: 'Mexiko-Stadt', start: '2026-11-01T20:00:00Z' },
+  { name: 'GP von São Paulo', ort: 'São Paulo',    start: '2026-11-08T17:00:00Z' },
+  { name: 'GP von Las Vegas', ort: 'Las Vegas',    start: '2026-11-22T04:00:00Z' },
+  { name: 'GP von Katar',     ort: 'Lusail',       start: '2026-11-29T16:00:00Z' },
+  { name: 'GP von Abu Dhabi', ort: 'Yas Marina',   start: '2026-12-06T13:00:00Z' }
+];
+function updateCountdown(){
+  const now = new Date();
+  const next = races.find(r => new Date(r.start) > now);
+  if (!next) {
+    document.getElementById('race-name').textContent = 'Saisonpause';
+    document.getElementById('race-date').textContent = 'Die neuen Renntermine folgen bald.';
+    return;
+  }
+  const start = new Date(next.start);
+  document.getElementById('race-name').textContent = next.name;
+  document.getElementById('race-date').textContent = next.ort + ' · ' +
+    start.toLocaleString('de-CH', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', timeZone:'Europe/Zurich' }) + ' Uhr';
+  let diff = Math.floor((start - now) / 1000);
+  document.getElementById('cd-d').textContent = Math.floor(diff / 86400);
+  document.getElementById('cd-h').textContent = Math.floor(diff % 86400 / 3600);
+  document.getElementById('cd-m').textContent = Math.floor(diff % 3600 / 60);
+  document.getElementById('cd-s').textContent = diff % 60;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* =========================================================
+   9) REAKTIONSTEST-SPIEL
+   ========================================================= */
+const gLights = document.querySelectorAll('#game-lights .light');
+const gBtn = document.getElementById('game-btn');
+const gResult = document.getElementById('game-result');
+const gMsg = document.getElementById('game-msg');
+const gBest = document.getElementById('game-best');
+let state = 'idle', timers = [], goTime = 0;
+let best = Number(localStorage.getItem('bestReaction')) || null;
+if (best) gBest.textContent = 'Deine Bestzeit: ' + best + ' ms';
+
+function resetLights(){ gLights.forEach(l => l.classList.remove('on')); }
+
+gBtn.addEventListener('click', () => {
+  if (state === 'idle') {
+    state = 'lights';
+    resetLights();
+    gResult.textContent = '– ms';
+    gMsg.textContent = 'Warte auf «Lights out» …';
+    gBtn.textContent = 'Klick, wenn die Lichter ausgehen!';
+    gLights.forEach((l, i) => timers.push(setTimeout(() => l.classList.add('on'), 600 * (i + 1))));
+    timers.push(setTimeout(() => {
+      resetLights();
+      goTime = performance.now();
+      state = 'go';
+    }, 600 * 5 + 500 + Math.random() * 2000));
+  }
+  else if (state === 'lights') {
+    timers.forEach(clearTimeout); timers = [];
+    resetLights();
+    state = 'idle';
+    gResult.textContent = 'Frühstart!';
+    gMsg.textContent = '🚩 Durchfahrtsstrafe! Versuch es nochmals.';
+    gBtn.textContent = 'Nochmals';
+  }
+  else if (state === 'go') {
+    const ms = Math.round(performance.now() - goTime);
+    state = 'idle';
+    gResult.textContent = ms + ' ms';
+    gBtn.textContent = 'Nochmals';
+    if (ms < 220) { gMsg.textContent = '🔥 Hamilton-Niveau! Unglaublich schnell.'; champagne('🍾 Hamilton-Niveau!'); }
+    else if (ms < 300) gMsg.textContent = '💪 Sehr stark! Fast wie ein Profi.';
+    else if (ms < 400) gMsg.textContent = '👍 Gut! Mit Training geht noch mehr.';
+    else gMsg.textContent = '🐢 Da war jemand noch in der Boxengasse …';
+    if (!best || ms < best) {
+      best = ms;
+      localStorage.setItem('bestReaction', ms);
+      gBest.textContent = 'Neue Bestzeit: ' + ms + ' ms 🏆';
+    } else {
+      gBest.textContent = 'Deine Bestzeit: ' + best + ' ms';
+    }
+  }
+});
+
+/* =========================================================
+   10) KONTAKT & FOOTER
+   ========================================================= */
+document.getElementById('copy').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('mail').textContent)
+    .then(() => toast('✅ E-Mail-Adresse kopiert'));
+});
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
